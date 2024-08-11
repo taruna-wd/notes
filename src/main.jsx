@@ -10,6 +10,7 @@ import Trash from './components/Trash/Trash.jsx'
 import Layout from './components/layout/Layout.jsx'
 import Notes from './components/Notes/Notes.jsx'
 import MainBody from './components/MainBody/MainBody.jsx'
+import App from './App.jsx'
 
 // const router = createBrowserRouter ([
 //   {
