@@ -1,40 +1,60 @@
+import React from 'react';
+import { useNotes } from '../../context/NotesContext';
 
-import React, { useState } from 'react'
+function Trash() {
+  const { trashNote  , deleteNote ,restoreforTrash} = useNotes();
 
-function Trash({trashNote ,setTrashNote}) {
-  console.log(trashNote)
- 
-  let handledelete = (id) =>{
-    setTrashNote( trashNote.filer((note)=>note.id !== id))
-  }
-  
   return (
-    <div className='w-4/5'>
-       <div  className="w-full  p-3  rounded-md shadow-white mt-6 flex">
-        <h2>trash list</h2>
-        {trashNote.map((single) => (
-            <div key={single.id} className="w-full p-3 border rounded-md shadow-white m-2">
-              <p>{single.title}</p>
-              <p>{single.content}</p>
-              <div className='flex justify-between cursor-pointer
-              '>
-              <i className="fa-solid fa-trash" onClick={()=> handledelete(trashNote.id)} ></i>
-                <i class="fa-solid fa-trash-can-arrow-up"></i>
-                              </div>
+    <div className='mt-2  w-3/5'>
+      <h2 className='text-center text-2xl border-b w-1/3 m-auto '>Trash Notes</h2>
+      <div className="flex justify-around flex-wrap mt-2">
+
+      {trashNote.length > 0 ? (
+        trashNote.map((note) => (
+          <div
+            key={note.id}
+            className="w-1/3 p-3 border rounded-md  shadow-lg m-2"
+          >
+            <p>{note.title}</p>
+            <p className="my-3 ">{note.content}</p>
+            <div className="flex justify-end gap-2 cursor-pointer my-1">
+              <a
+                className=" rounded-full  overflow-hidden group  relative hover:bg-gradient-to-r hover:from-gary-400 hover:to-gray-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-gray-400 transition-all ease-out duration-300"
+              >
+                <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                <span className="relative">
+                  <i
+                  title='Delete forever'
+                    className="fa-solid fa-trash   rounded-full p-2"
+                    onClick={() => deleteNote(note.id)}
+                  ></i>
+                </span>
+              </a>
+              <a
+                className=" rounded-full  overflow-hidden group  relative hover:bg-gradient-to-r hover:from-gary-400 hover:to-gray-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-gray-400 transition-all ease-out duration-300"
+              >
+                <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                <span className="relative">
+                  <i
+                    title='Restore'
+                    className="fa-solid fa-trash-arrow-up rounded-full p-2"
+                    onClick={() => restoreforTrash(note.id)}
+                  ></i>
+                </span>
+              </a>
+
              
+
+              
             </div>
-          ))}
-
-        
-       
-      </div>   
-             
-      </div>
-      
-
-  )
+          </div>
+        ))
+      ) : (
+        <p>No notes in trash.</p>
+      )}
+    </div>
+    </div>
+  );
 }
 
-export default Trash
-
-
+export default Trash;

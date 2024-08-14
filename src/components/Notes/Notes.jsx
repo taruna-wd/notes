@@ -1,93 +1,137 @@
-
-import React, { useEffect, useState } from 'react'
-import MainBody from '../MainBody/MainBody'
-import { v4 as uuidv4 } from 'uuid';
-import Archive from '../Archive/Archive';
-import Modal from './Modal';
-import Trash from '../Trash/Trash';
-
- 
-function Notes()   {
-  const [savedNotes , setSavedNotes] = useState(JSON.parse(localStorage.getItem("savednotes")) || [])
-  const [archive , setArchive ]  = useState(JSON.parse(localStorage.getItem("archive")) ||[])
-  const [trashNote , setTrashNote ] = useState(JSON.parse(localStorage.getItem("trashNote")) ||[])
+import React, { useState } from "react";
+import MainBody from "../MainBody/MainBody";
+import { useNotes } from "../../context/NotesContext";
+import { Link, useNavigate } from "react-router-dom";
 
 
-   useEffect(()=>{
-   localStorage.setItem("savednotes" ,JSON.stringify(savedNotes));
-   localStorage.setItem("archive" ,JSON.stringify(archive));
-   localStorage.setItem("trashNote" ,JSON.stringify(trashNote));
-    
-   },[savedNotes,archive,trashNote])
-   
- 
-  const addNotes = (newnote) =>{
-    setSavedNotes((currentnote) => [...currentnote ,{ ...newnote, id: uuidv4() } ])
-  }
-  const deleteNote = (id) =>{
-    const addTrash = savedNotes.find((note) => note.id === id);
-  if(addTrash){
-    setTrashNote((current) => [...current ,addTrash])
+function Notes() {
+  const { savedNotes, addNotes, archiveNote, updateNote, trashaddNote  } =
+    useNotes();
+  const [editingNote, setEditingNote] = useState(false);
 
-  } setSavedNotes(savedNotes.filter((note)=> note.id !== id))
-  }
- 
-  const archiveNote = (id) => {
-    const addArchive = savedNotes.find((note) => note.id === id);
-  
-    if (addArchive) {
-      setArchive((currentArchive) => {
-        const updatedArchive = [...currentArchive, addArchive];
-        console.log("Updated Archive State:", updatedArchive); // Check if it is updating correctly
-        return updatedArchive;
-      });
-      setSavedNotes(savedNotes.filter((note) => note.id !== id));
+  const handleEditChange = (e) => {
+    let fieldName = e.target.name;
+    let fieldValue = e.target.value;
+    setEditingNote({
+      ...editingNote,
+      [fieldName]: fieldValue,
+    });
+  };
+
+  const handleUpdateNote = () => {
+    if (editingNote) {
+      updateNote(editingNote.id, editingNote);
+      setEditingNote(false);
     }
   };
-  
-  
-  // let [editnote , setEditnote] = useState([])
-  // let editNote = (id) =>{
-  //   let edit = savedNotes.find((note) =>note.id === id )  
-  //   if (edit) {
-  //     setEditnote((currentnote) => [...currentnote, edit]);
-  //   }
-
-  // }
-  
 
   return (
-    <>
-      <div className='w-3/5 '>
-        <MainBody addNotes={addNotes}/>
-        <div className='flex justify-around flex-wrap' >
+    <div className="w-3/5">
+      <MainBody addNotes={addNotes} />
+      <div className="flex justify-around flex-wrap">
         {savedNotes.map((newnote) => (
-            <div key={newnote.id} className="w-1/4 p-3 border rounded-md shadow-white m-2">
-              <p>{newnote.title}</p>
-              <p>{newnote.content}</p>
-              <div className='flex justify-around cursor-pointer'>
-                <i className="fa-solid fa-trash" onClick={() => deleteNote(newnote.id)}></i>
-                <i className="fa-solid fa-file-arrow-down" onClick={() => archiveNote(newnote.id)}></i>
-                <i className="fa-solid fa-pen-to-square" onClick={() => editNote(newnote.id)}></i>
+          <div
+            key={newnote.id}
+            className="w-1/4 p-3 border rounded-md  shadow-lg m-2"
+          >
+            <p>{newnote.title}</p>
+            <p className="my-3 ">{newnote.content}</p>
+            <div className="flex justify-end gap-3 cursor-pointer my-1">
+              <a
+                href="#_"
+                className=" rounded-full  overflow-hidden group  relative hover:bg-gradient-to-r hover:from-gary-400 hover:to-gray-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-gray-400 transition-all ease-out duration-300"
+              >
+                <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                <span class="relative">
+                  <i
+                    className="fa-solid fa-trash   rounded-full p-2"
+                    onClick={() => trashaddNote(newnote.id)}
+                  ></i>
+                </span>
+              </a>
+              <a
+                className=" rounded-full  overflow-hidden group  relative hover:bg-gradient-to-r hover:from-gary-400 hover:to-gray-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-gray-400 transition-all ease-out duration-300"
+              >
+                <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                <span class="relative">
+                  <i
+                    className="fa-solid fa-file-arrow-down rounded-full p-2"
+                    onClick={() => archiveNote(newnote.id)}
+                  ></i>
+                </span>
+              </a>
 
-              </div>
+              <a
+                href="#_"
+                className=" rounded-full  overflow-hidden group  relative hover:bg-gradient-to-r hover:from-gary-400 hover:to-gray-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-gray-400 transition-all ease-out duration-300"
+              >
+                <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                <span class="relative">
+                <i
+                className="fa-solid fa-pen-to-square rounded-full p-2"
+                onClick={() => setEditingNote(newnote)}
+              ></i>
+                </span>
+              </a>
+              
+              <Link to="/drawing"
+               className=" rounded-full  overflow-hidden group  relative hover:bg-gradient-to-r hover:from-gary-400 hover:to-gray-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-gray-400 transition-all ease-out duration-300"
+              >
+                <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                <span class="relative">
+                  <i
+                    className="fa-solid fa-file-arrow-down rounded-full p-2"
+                  ></i>
+                </span>
+              </Link>
+              
+              
             </div>
-          ))}
-        </div>
-        {/* <Modal editnote={editnote}/> */}
-
-        <div className=''>
-          <Archive archive={archive}   />
-          <Trash trashNote={trashNote} />
-        </div>
-      
-       
-       
-      
           </div>
-    </>
-  
-  )
+        ))}
+      </div>
+      {editingNote && (
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2shadow-lg">
+          <div class="relative w-full p-3 border rounded-md shadow-white m-2 bg-black  ">
+            <form className="flex flex-row">
+              <div>
+                <i
+                  class="fa-solid fa-xmark"
+                  onClick={() => setEditingNote(null)}
+                ></i>
+                <input
+                  type="text"
+                  name="title"
+                  value={editingNote.title}
+                  onChange={handleEditChange}
+                  className="w-full  bg-transparent  border outline-none mb-3"
+                  required
+                />
+              </div>
+
+              <div>
+                <input
+                  type="text"
+                  placeholder="Add note"
+                  onChange={handleEditChange}
+                  className="w-full  bg-transparent  outline-none border"
+                  name="content"
+                  value={editingNote.content}
+                  required
+                />
+              </div>
+              <div>
+                <i
+                  class="fa-solid fa-floppy-disk"
+                  onClick={handleUpdateNote}
+                ></i>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default Notes 
+export default Notes;

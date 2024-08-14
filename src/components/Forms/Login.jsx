@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 function Signup() {
   return (
     <>
-    <section className=" dark:bg-gray-900 w-full">
+
+    <section className=" dark:bg-gray-900 w-full ">
    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 text-white ">
 
       <div className="w-full bg-grey-900 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 border">

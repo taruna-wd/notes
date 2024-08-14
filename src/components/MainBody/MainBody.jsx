@@ -72,7 +72,6 @@ const MainBody = ({addNotes}) => {
       
        
       </div>
-        {/* <p class="mt-2 text-sm text-green-600 dark:text-green-500"><span class="font-medium">Well done!</span> Some success message.</p> */}
       
     </div>
     </>

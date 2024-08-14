@@ -7,7 +7,7 @@ function Sidebar({menu}) {
 
 
   return (
-    <div className='w-1/5'>
+    <div className='w-1/5 '>
         <div className="w-2/3">
         <div className='w-full cursor-pointer'>
                 <div className="flex text-lg items-center p-3 hover:bg-zinc-700 rounded-r-full transition duration-700 ease-in-out m-2 " >

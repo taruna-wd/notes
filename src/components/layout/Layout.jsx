@@ -5,11 +5,12 @@ import { Outlet } from 'react-router-dom'
 
 function Layout() {
   return (
-    <div className='text-white'>
+    <div className='text-white bg-stone-900 h-screen'>
 
         <Header/>
-        <div className='flex '>
+        <div className='flex  bg-stone-900'>
         <Sidebar/>
+        
         <Outlet/>
 
 
