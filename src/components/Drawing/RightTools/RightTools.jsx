@@ -7,14 +7,14 @@ function Tools() {
   return (
     <div className="w-1/2">
 
-      <div className="flex float-end justify-between w-full ">
-        <div className="hover:border  bg-transparent p-2  ">
+      <div className="flex float-end justify-between items-center w-1/3 ">
+        <div className="hover:border  bg-transparent p-2 size-8 text-center  ">
           <i className="fa-solid fa-reply"></i>
         </div>
-        <div>
+        <div className="hover:border  bg-transparent p-2 size-8">
           <i className="fa-solid fa-share"></i>
         </div>
-        <div >
+        <div className="hover:border  bg-transparent p-2 size-8" >
           {" "}
           {ischecked ? (
             <i className="fa-solid fa-compress"></i>
@@ -22,7 +22,7 @@ function Tools() {
             <i className="fa-solid fa-expand"></i>
           )}{" "}
         </div>
-        <div>
+        <div className="hover:border  bg-transparent p-2 size-8">
           {" "}
           <i className="fa-solid fa-ellipsis-vertical"></i>
           <div></div>

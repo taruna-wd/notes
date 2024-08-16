@@ -3,11 +3,12 @@ import MainBody from "../MainBody/MainBody";
 import { useNotes } from "../../context/NotesContext";
 import { Link, useNavigate } from "react-router-dom";
 
-
 function Notes() {
-  const { savedNotes, addNotes, archiveNote, updateNote, trashaddNote  } =
+  const { savedNotes, addNotes, archiveNote, updateNote, trashaddNote  ,pinNotebtn ,otherNote} =
     useNotes();
   const [editingNote, setEditingNote] = useState(false);
+
+
 
   const handleEditChange = (e) => {
     let fieldName = e.target.name;
@@ -25,16 +26,31 @@ function Notes() {
     }
   };
 
+ 
+
+ 
+  
   return (
     <div className="w-3/5">
       <MainBody addNotes={addNotes} />
       <div className="flex justify-around flex-wrap">
-        {savedNotes.map((newnote) => (
+        
+      {savedNotes.map((newnote) => (
+        
           <div
             key={newnote.id}
             className="w-1/4 p-3 border rounded-md  shadow-lg m-2"
           >
-            <p>{newnote.title}</p>
+            
+            <div className="flex justify-between items-center">
+              <p>{newnote.title}</p> <span >
+              <i
+                  className={`fa-solid fa-thumbtack ${
+                    newnote.pinned ? "text-blue-500" : ""
+                  }`}
+                  onClick={() => pinNotebtn(newnote.id)}
+                ></i>              </span>
+            </div>
             <p className="my-3 ">{newnote.content}</p>
             <div className="flex justify-end gap-3 cursor-pointer my-1">
               <a
@@ -44,17 +60,17 @@ function Notes() {
                 <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
                 <span class="relative">
                   <i
+                    title="trash"
                     className="fa-solid fa-trash   rounded-full p-2"
                     onClick={() => trashaddNote(newnote.id)}
                   ></i>
                 </span>
               </a>
-              <a
-                className=" rounded-full  overflow-hidden group  relative hover:bg-gradient-to-r hover:from-gary-400 hover:to-gray-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-gray-400 transition-all ease-out duration-300"
-              >
+              <a className=" rounded-full  overflow-hidden group  relative hover:bg-gradient-to-r hover:from-gary-400 hover:to-gray-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-gray-400 transition-all ease-out duration-300">
                 <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
                 <span class="relative">
                   <i
+                  title="archive"
                     className="fa-solid fa-file-arrow-down rounded-full p-2"
                     onClick={() => archiveNote(newnote.id)}
                   ></i>
@@ -67,25 +83,29 @@ function Notes() {
               >
                 <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
                 <span class="relative">
-                <i
-                className="fa-solid fa-pen-to-square rounded-full p-2"
-                onClick={() => setEditingNote(newnote)}
-              ></i>
+                  <i
+                  title="edit"
+                    className="fa-solid fa-pen-to-square rounded-full p-2"
+                    onClick={() => setEditingNote(newnote)}
+                  ></i>
                 </span>
               </a>
-              
-              <Link to="/drawing"
-               className=" rounded-full  overflow-hidden group  relative hover:bg-gradient-to-r hover:from-gary-400 hover:to-gray-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-gray-400 transition-all ease-out duration-300"
+              <a className=" rounded-full  overflow-hidden group  relative hover:bg-gradient-to-r hover:from-gary-400 hover:to-gray-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-gray-400 transition-all ease-out duration-300">
+                <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                <span class="relative">
+                  <i className="fa-solid fa-bell rounded-full p-2"></i>
+                </span>
+              </a>
+
+              <Link
+                to="/drawing"
+                className=" rounded-full  overflow-hidden group  relative hover:bg-gradient-to-r hover:from-gary-400 hover:to-gray-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-gray-400 transition-all ease-out duration-300"
               >
                 <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
                 <span class="relative">
-                  <i
-                    className="fa-solid fa-file-arrow-down rounded-full p-2"
-                  ></i>
+                  <i className="fa-solid fa-scroll rounded-full p-2"></i>
                 </span>
               </Link>
-              
-              
             </div>
           </div>
         ))}

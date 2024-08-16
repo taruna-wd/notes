@@ -8,7 +8,7 @@ import Archive from './components/Archive/Archive';
 import Trash from './components/Trash/Trash';
 import Layout from './components/layout/Layout';
 import Notes from './components/Notes/Notes';
-import Tools from './components/Drawing/topcanvas/RightTools/RightTools';
+import Tools from './components/Drawing/Tools';
 
 const router = createBrowserRouter ( 
   createRoutesFromElements(
