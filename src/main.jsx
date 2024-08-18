@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { RouterProvider, createBrowserRouter , Route  , createRoutesFromElements} from 'react-router-dom';
 import { NotesProvider } from './context/NotesContext';
+import { DrawingProvider } from './context/DrawingContext'; 
 import Reminder from './components/Reminder/Reminder';
 import Archive from './components/Archive/Archive';
 import Trash from './components/Trash/Trash';
@@ -19,7 +20,12 @@ const router = createBrowserRouter (
       <Route path="reminder"  element = {<Reminder/>}/> 
       <Route path="archive" element={<Archive />} />
       <Route path="trash"  element = {<Trash/>}/> 
-      <Route path="drawing"  element = {<Tools/>}/> 
+      <Route path="drawing" element={
+    <DrawingProvider>
+      <Tools />
+    </DrawingProvider>
+  }
+/>
        {/* <Route path="login"  element = {<Login/>}/> 
       <Route path="signup"  element = {<Signup/>}/>   */}
 
