@@ -9,7 +9,7 @@ export const DrawingProvider = ({ children }) => {
   const [isErasing, setIsErasing] = useState(false); // New state to track if eraser is active
   const [lineWidth, setLineWidth] = useState(7); // for brush size 
   const [showOptions, setShowOptions] = useState(false); // hide or show options for brush and color
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = useState( JSON.parse(localStorage.getItem("history"))||[]);
   const [historyStep, setHistoryStep] = useState(0);
 
   useEffect(() => {
@@ -54,8 +54,13 @@ export const DrawingProvider = ({ children }) => {
   const saveHistory = () => {
     const canvas = canvasRef.current;
     const dataUrl = canvas.toDataURL();
+    console.log(history)
+
     const newHistory = [...history.slice(0, historyStep), dataUrl];
     setHistory(newHistory);
+    console.log(newHistory)
+    localStorage.setItem("history", JSON.stringify(history));
+
     setHistoryStep(newHistory.length);
   };
 

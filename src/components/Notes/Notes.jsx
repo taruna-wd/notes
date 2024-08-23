@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import MainBody from "../MainBody/MainBody";
 import { useNotes } from "../../context/NotesContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 function Notes() {
-  const { savedNotes, addNotes, archiveNote, updateNote, trashaddNote  ,pinNotebtn ,otherNote} =
+  const { savedNotes, addNotes, archiveNote, updateNote, trashaddNote  ,pinNotebtn ,image ,otherNote} =
     useNotes();
   const [editingNote, setEditingNote] = useState(false);
-
+  
+  console.log(import.meta.env.VITE_APPWRITE_URL)
 
 
   const handleEditChange = (e) => {
@@ -19,16 +20,18 @@ function Notes() {
     });
   };
 
-  const handleUpdateNote = () => {
+  const handleUpdateNote = (e) => {
+
     if (editingNote) {
       updateNote(editingNote.id, editingNote);
-      setEditingNote(false);
+      e.preventDefault();
+
     }
+
+    setEditingNote(false);
+
   };
 
- 
-
- 
   
   return (
     <div className="w-3/5">
@@ -43,6 +46,8 @@ function Notes() {
           >
             
             <div className="flex justify-between items-center">
+            {/* <img src={image} alt="" /> */}
+
               <p>{newnote.title}</p> <span >
               <i
                   className={`fa-solid fa-thumbtack ${
@@ -54,7 +59,6 @@ function Notes() {
             <p className="my-3 ">{newnote.content}</p>
             <div className="flex justify-end gap-3 cursor-pointer my-1">
               <a
-                href="#_"
                 className=" rounded-full  overflow-hidden group  relative hover:bg-gradient-to-r hover:from-gary-400 hover:to-gray-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-gray-400 transition-all ease-out duration-300"
               >
                 <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
@@ -98,7 +102,7 @@ function Notes() {
               </a>
 
               <Link
-                to="/drawing"
+                to={`/notes/${newnote.id}`}
                 className=" rounded-full  overflow-hidden group  relative hover:bg-gradient-to-r hover:from-gary-400 hover:to-gray-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-gray-400 transition-all ease-out duration-300"
               >
                 <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
@@ -113,39 +117,41 @@ function Notes() {
       {editingNote && (
         <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2shadow-lg">
           <div class="relative w-full p-3 border rounded-md shadow-white m-2 bg-black  ">
-            <form className="flex flex-row">
-              <div>
-                <i
-                  class="fa-solid fa-xmark"
+            <form className="flex flex-col" onSubmit={handleUpdateNote}>
+              <div   className="flex justify-between my-2 ">
+              <i
+                  className="fa-solid fa-xmark  hover:bg-slate-900 p-1 rounded-sm"
                   onClick={() => setEditingNote(null)}
                 ></i>
-                <input
+                 <i
+                  className="fa-solid fa-floppy-disk  hover:bg-slate-900 p-1 rounded-sm"
+                  onClick={handleUpdateNote}
+                ></i>
+              </div>
+              <div className="">
+              <input
                   type="text"
                   name="title"
                   value={editingNote.title}
                   onChange={handleEditChange}
-                  className="w-full  bg-transparent  border outline-none mb-3"
+                  className="w-full  bg-transparent   outline-none mb-3 hover:border-b pb-1"
                   required
                 />
-              </div>
-
-              <div>
                 <input
                   type="text"
-                  placeholder="Add note"
-                  onChange={handleEditChange}
-                  className="w-full  bg-transparent  outline-none border"
                   name="content"
                   value={editingNote.content}
+                  onChange={handleEditChange}
+                  className="w-full  bg-transparent   outline-none mb-3 hover:border-b pb-1"
                   required
                 />
+               <div>
+               
+                
+               </div>
+                
               </div>
-              <div>
-                <i
-                  class="fa-solid fa-floppy-disk"
-                  onClick={handleUpdateNote}
-                ></i>
-              </div>
+
             </form>
           </div>
         </div>

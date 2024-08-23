@@ -18,16 +18,16 @@ function Tools() {
     setDisabled(false)
   };
   return (
-    <div className="w-1/4">
-      <div className="flex  justify-between items-center w-2/3 my-1 ">
-        <div className="hover:border hover:bg-white p-2 transition duration-700 ease-in-out  " onClick={undo}>
+    <div className="">
+      <div className="flex gap-2 justify-between items-center w-2/3 my-1 ">
+        <div className="hover:border hover:bg-white px-2  py-1 transition duration-700 ease-in-out  " onClick={undo}>
           <i className="fa-solid fa-reply"></i>
         </div>
-        <div className="hover:border hover:bg-white p-2 transition duration-700 ease-in-out" onClick={redo}>
+        <div className="hover:border hover:bg-white px-2 py-1 transition duration-700 ease-in-out" onClick={redo}>
           <i className="fa-solid fa-share"></i>
         </div>
         <div
-          className="hover:border hover:bg-white p-2 transition duration-700 ease-in-out"
+          className="hover:border hover:bg-white px-2  py-1 transition duration-700 ease-in-out"
           onClick={() => setIsChecked(!ischecked)}
         >
           {ischecked ? (
@@ -36,9 +36,9 @@ function Tools() {
             <i className="fa-solid fa-compress"></i>
           )}
         </div>
-        <div className="hover:border hover:bg-white p-2 transition duration-700 ease-in-out">
+        <div className="hover:border hover:bg-white px-2 py-1 transition duration-700 ease-in-out cursor-pointer">
           <i
-            className="fa-solid fa-ellipsis-vertical cursor-pointer"
+            className="fa-solid fa-ellipsis-vertical "
             onClick={() => setDisabled(!disabled)}
           ></i>
 

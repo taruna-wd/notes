@@ -20,7 +20,7 @@ const router = createBrowserRouter (
       <Route path="reminder"  element = {<Reminder/>}/> 
       <Route path="archive" element={<Archive />} />
       <Route path="trash"  element = {<Trash/>}/> 
-      <Route path="drawing" element={
+      <Route path="notes/:id" element={
     <DrawingProvider>
       <Tools />
     </DrawingProvider>

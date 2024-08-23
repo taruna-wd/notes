@@ -1,10 +1,11 @@
 
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 const NotesContext = createContext();
 
 export const NotesProvider = ({ children }) => {
+  const imageRef = useRef([])
   const [savedNotes, setSavedNotes] = useState(
     JSON.parse(localStorage.getItem("savednotes")) || []
   );
@@ -16,6 +17,12 @@ export const NotesProvider = ({ children }) => {
   );
   const [otherNote, setOtherNote] = useState(
     JSON.parse(localStorage.getItem("othernote")) || []
+  );
+  const [storeDrawing, setStoreDrawing] = useState(
+    JSON.parse(localStorage.getItem("othernote")) || []
+  );
+  const [image, setImage] = useState(
+    JSON.parse(localStorage.getItem("image")) || []
   );
 
   useEffect(() => {
@@ -83,10 +90,13 @@ export const NotesProvider = ({ children }) => {
     );
   };
 
+  const imageAdd = ()=>{
+    imageRef.current.click()
+  }
  
   
   return (
-    <NotesContext.Provider value={{ savedNotes, archive, trashNote,otherNote, pinNotebtn ,addNotes, deleteNote, archiveNote ,updateNote,trashaddNote, restoreforTrash ,restoreforArchive }}>
+    <NotesContext.Provider value={{ savedNotes, archive, trashNote,otherNote,image ,imageRef, imageAdd,setImage, pinNotebtn ,addNotes, deleteNote, archiveNote ,updateNote,trashaddNote, restoreforTrash ,restoreforArchive }}>
       {children}
     </NotesContext.Provider>
   );
