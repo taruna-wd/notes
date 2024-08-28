@@ -10,11 +10,18 @@ import Trash from './components/Trash/Trash';
 import Layout from './components/layout/Layout';
 import Notes from './components/Notes/Notes';
 import Tools from './components/Drawing/Tools';
+import Login from './components/Forms/Login';
+import Signup from './components/Forms/Signup';
+// import ProtectedRoute from './context/ProtectedRoute';
+
 
 const router = createBrowserRouter ( 
   createRoutesFromElements(
-    <Route path="/" >
-    <Route path = "/" element = {<Layout/>}>
+    <Route path="/" element = {<Layout/>} >
+      
+      <Route path="/login"  element = {<Login/>}/> 
+      <Route path="/signup"  element = {<Signup/>}/>  
+    <Route  >
       <Route index  element = {<Notes/>}/> 
       <Route path="notes"  element = {<Notes/>}/> 
       <Route path="reminder"  element = {<Reminder/>}/> 
@@ -25,9 +32,7 @@ const router = createBrowserRouter (
       <Tools />
     </DrawingProvider>
   }
-/>
-       {/* <Route path="login"  element = {<Login/>}/> 
-      <Route path="signup"  element = {<Signup/>}/>   */}
+/> 
 
     </Route>
     </Route>

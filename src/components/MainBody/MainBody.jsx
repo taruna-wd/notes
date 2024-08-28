@@ -7,6 +7,7 @@ import { useNotes } from "../../context/NotesContext";
 const MainBody = ({ addNotes }) => {
   const { setImage, image, imageAdd, imageRef } = useNotes();
   const [note, setNote] = useState({
+    
     id: uuidv4(),
     title: "",
     content: "",
