@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 
 
 function Notes() {
-  const {savedNotes,addNotes,archiveNote,updateNote,trashaddNote,pinNotebtn,setSavedNotes    } = useNotes();
+  const {savedNotes,addNotes,archiveNote,updateNote,trashaddNote,pinNotebtn,setSavedNotes      } = useNotes();
   const imageRef = useRef(null);
 
   const [image, setImage] = useState(
@@ -15,7 +15,8 @@ function Notes() {
 
   const [editingNote, setEditingNote] = useState(false);
   
-  const [disabled, setDisabled] = useState(false);
+  const [openMenuId, setOpenMenuId] = useState(false);
+  const [imageId, setImageId] = useState(false);
 
   const handleEditChange = (e) => {
     let fieldName = e.target.name;
@@ -35,27 +36,24 @@ function Notes() {
     setEditingNote(false);
   };
 
-  const imageAdd =()=>{
-      imageRef.current.click()
-
-  }
-  const handleChangeImage = (e,id)=>{
+  const handleChangeImage = (e , id)=>{
     
     const file = URL.createObjectURL(e.target.files[0])
-    const add = savedNotes.find((note) => note.id !== id);
-    if(add){
-      setImage((file)=> [...file ])
-    console.log("ab ho rahi h")
-    }
-
-
-
-
-    
-    
-   
+    const imageupdate = savedNotes.map(note => note.id === id ?{...note , image :file } : note )
+    setImage(imageupdate);
 
   }
+  const imageAdd =(id)=>{
+      imageRef.current.click()
+  }
+
+  const toggleMenu = (id) => {
+    if (openMenuId === id) {
+      setOpenMenuId(false);  // Close the menu if it's already open
+    } else {
+      setOpenMenuId(id);  // Open the menu for this specific note
+    }
+  };
   return (
     <div className="w-3/5">
       <MainBody addNotes={addNotes} />
@@ -66,7 +64,7 @@ function Notes() {
             className="md:w-1/4 p-3 border rounded-md  shadow-lg m-2 w-full"
             onDoubleClick={() => setEditingNote(newnote)}
           >
-            <img src={image} alt={image.name} /> 
+           {  <img src={image} alt={image.name}  key = {newnote.id}/>  }
 
             <div className="flex justify-between items-center">
               <p>{newnote.title}</p>
@@ -84,7 +82,7 @@ function Notes() {
               <i
                 className="fa-solid fa-ellipsis-vertical  px-1 cursor-pointer "
                 title="More"
-                onClick={() => setDisabled(!disabled) }
+                onClick={()=> toggleMenu(newnote.id) }
               ></i>
                <i
                     title="archive"
@@ -94,13 +92,13 @@ function Notes() {
                    <i
                     title="image"
                     className="fa-solid fa-image rounded-full p-2"
-                    onClick={imageAdd}
+                    onClick={()=> imageAdd(newnote.id)}
 
                   >  <input type="file" ref={imageRef}  onChange={handleChangeImage} style={{display : "none"}}/>
    </i>
               </div>
 
-              {disabled && (
+              {openMenuId === newnote.id && (
                 <div className="flex flex-col   gap-3 cursor-pointer   absolute   bg-black  w-48  rounded-lg p-2 ">
                   <p onClick={() => trashaddNote(newnote.id)}> Delete note </p>
 

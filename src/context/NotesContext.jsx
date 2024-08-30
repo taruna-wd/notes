@@ -31,7 +31,9 @@ export const NotesProvider = ({ children }) => {
   );
   const imageRef = useRef(null);
 
-  
+  const [disabled, setDisabled] = useState(false);
+  const [menu, setMenu] = useState(false);
+
 
   // const [storeDrawing, setStoreDrawing] = useState([]);
 
@@ -42,6 +44,7 @@ export const NotesProvider = ({ children }) => {
     localStorage.setItem("othernote", JSON.stringify(otherNote));
   }, [savedNotes, archive, trashNote, otherNote]);
 
+  
   // useEffect(() => {
   //   if (user) {
   //     // Fetch notes from the database when the user is logged in
@@ -91,6 +94,7 @@ export const NotesProvider = ({ children }) => {
     
     }
     setSavedNotes(savedNotes.filter((note) => note.id !== id));
+    setDisabled(false)
   };
 
   const deleteNote = async(id) => {
@@ -147,6 +151,7 @@ export const NotesProvider = ({ children }) => {
       setSavedNotes((currentnote) => [...currentnote, restoreInTrash]);
       setTrashNote(trashNote.filter((note) => note.id !== id));
     }
+
   };
   const restoreforArchive = (id) => {
     const restoreInArchive = archive.find((note) => note.id === id);
@@ -165,7 +170,7 @@ export const NotesProvider = ({ children }) => {
   };
 
  
-
+  
   // Other functions remain the same, with the same user checks if necessary
 
   return (
@@ -175,12 +180,15 @@ export const NotesProvider = ({ children }) => {
         archive,
         trashNote,
         otherNote,
+        menu,
+        setDisabled,
         pinNotebtn,
         addNotes,
         deleteNote,
         archiveNote,
         updateNote,
         trashaddNote,
+        setMenu,
         restoreforTrash,
         restoreforArchive,
       }}

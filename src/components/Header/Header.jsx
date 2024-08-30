@@ -2,10 +2,12 @@ import React, { useState ,useEffect } from "react";
 import { Link , useNavigate } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
 import authService from "../../appwrite/auth";
+import { useNotes } from "../../context/NotesContext";
 
 function Header() {
-  const [menu, setMenu] = useState(false);
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const {menu, setMenu} = useNotes()
 
   useEffect(() => {
     const checkUserStatus = async () => {
@@ -20,9 +22,7 @@ function Header() {
 }, []);
 
 
-  const menuToggle = () => {
-    setMenu(!menu);
-  };
+ 
   const navigate = useNavigate()
   const Logout = async () => {
     try {
@@ -35,18 +35,18 @@ function Header() {
 };
   return (
     <div className="">
-      <div className="container flex justify-around text-center items-center p-2  border-b">
+      <div className="container flex justify-between text-center items-center p-2  border-b">
         <div className="w-1/6    flex justify-around items-center">
           <i
-            className="fa-solid fa-bars text-lg  hover:bg-zinc-700 active:bg-zinc-500   px-3 py-1 rounded-lg "
-            onClick={menuToggle}
+            className="fa-solid fa-bars text-lg  hover:bg-zinc-700 active:bg-zinc-500   px-3 py-1 rounded-lg  flex-start"
+            onClick={()=> setMenu(!menu)}
           ></i>
-          <Link to="/" className="w-1/2 cursor-pointer p-0">
+          <Link to="/" className="w-full  md:w-1/2 cursor-pointer p-0">
             notes keep
           </Link>
         </div>
 
-        <div className="w-4/6  p-3 rounded-lg bg-zinc-700  mx-3">
+        <div className="md:w-3/6  hidden p-3 rounded-lg bg-zinc-700  mx-3">
           <form action="" className="flex ">
             <input
               type="text"
