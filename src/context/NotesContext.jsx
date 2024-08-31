@@ -3,11 +3,9 @@ import React, {
   useState,
   useContext,
   useEffect,
-  useRef,
+  
 } from "react";
 import { v4 as uuidv4 } from "uuid";
-import databaseService from "../database/store";
-import { AuthContext } from "./Authcontext";
 
 const NotesContext = createContext();
 
