@@ -12,7 +12,6 @@ import Notes from './components/Notes/Notes';
 import Tools from './components/Drawing/Tools';
 import Login from './components/Forms/Login';
 import Signup from './components/Forms/Signup';
-// import ProtectedRoute from './context/ProtectedRoute';
 
 
 const router = createBrowserRouter ( 
