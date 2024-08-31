@@ -6,33 +6,11 @@ import { useNotes } from "../../context/NotesContext";
 
 function Header() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn , setIsLoginIn] = useState(false)
   const {menu, setMenu} = useNotes()
 
-  useEffect(() => {
-    const checkUserStatus = async () => {
-        try {
-            const user = await authService.getCurrentUser();
-            setIsLoggedIn(!!user); // Set isLoggedIn to true if user is logged in
-        } catch (error) {
-            setIsLoggedIn(false);
-        }
-    };
-    checkUserStatus();
-}, []);
-
-
  
-  const navigate = useNavigate()
-  const Logout = async () => {
-    try {
-        await authService.logout();
-        setIsLoggedIn(false); // Update the state after logging out
-        navigate('/login'); // Redirect to the login page
-    } catch (error) {
-        console.error("Logout failed: ", error);
-    }
-};
+
   return (
     <div className="">
       <div className="container flex justify-between text-center items-center p-2  border-b">

@@ -12,7 +12,6 @@ import { AuthContext } from "./Authcontext";
 const NotesContext = createContext();
 
 export const NotesProvider = ({ children }) => {
-  // const { user } = useContext(AuthContext);
 
   const [savedNotes, setSavedNotes] = useState(
     JSON.parse(localStorage.getItem("savednotes")) || []
@@ -29,14 +28,9 @@ export const NotesProvider = ({ children }) => {
   const [storeDrawing, setStoreDrawing] = useState(
     JSON.parse(localStorage.getItem("othernote")) || []
   );
-  const imageRef = useRef(null);
 
   const [disabled, setDisabled] = useState(false);
   const [menu, setMenu] = useState(false);
-
-
-  // const [storeDrawing, setStoreDrawing] = useState([]);
-
   useEffect(() => {
     localStorage.setItem("savednotes", JSON.stringify(savedNotes));
     localStorage.setItem("archive", JSON.stringify(archive));
@@ -45,44 +39,10 @@ export const NotesProvider = ({ children }) => {
   }, [savedNotes, archive, trashNote, otherNote]);
 
   
-  // useEffect(() => {
-  //   if (user) {
-  //     // Fetch notes from the database when the user is logged in
-  //     fetchNotes();
-  //   }
-  // }, [user]);
-
-  // const fetchNotes = async () => {
-  //   try {
-  //     const notesResponse = await databaseService.getNotes(user.$id);
-  //     setSavedNotes(notesResponse.documents);
-  //   } catch (error) {
-  //     console.error("Failed to fetch notes", error);
-  //   }
-  // };
-  const addNotes = async (newnote) => {
+  const addNotes =  (newnote) => {
     setSavedNotes((currentnote) => [ ...currentnote,
-      { ...newnote, id: uuidv4(), pinned: false ,  image:null},
+      { ...newnote, id: uuidv4(), pinned: false },
     ]);
-    // if (!user) {
-    //   console.log("User must be logged in to add notes");
-    //   return;
-    // }
-
-    // try {
-    //   const noteId = uuidv4();
-    //   await databaseService.createNote({
-    //     title: newnote.title,
-    //     content: newnote.content,
-    //     slug: noteId,
-    //     userId: user.$id,
-    //   });
-    //   setSavedNotes((currentnote) => [ ...currentnote,
-    //     { ...newnote, id: uuidv4(), pinned: false },
-    //   ]);
-    // } catch (error) {
-    //   console.log("error adding note", error);
-    // }
   };
   
 
@@ -91,26 +51,9 @@ export const NotesProvider = ({ children }) => {
     console.log(addTrash)
     if (addTrash) {
       setTrashNote((current) => [...current, addTrash]);
-    
     }
     setSavedNotes(savedNotes.filter((note) => note.id !== id));
     setDisabled(false)
-  };
-
-  const deleteNote = async(id) => {
-    setTrashNote(trashNote.filter((note) => note.id !== id));
-
-    // if (!user) {
-    //   console.log("User must be logged in to delete notes");
-    //   return;
-    // }
-    // try {
-    //   await databaseService.deleteNote(id)
-    //   setTrashNote(trashNote.filter((note) => note.id !== id));
-    //   console.log("Error deleting note:", error);
-
-    // } catch (error) {
-    // }
   };
 
   const archiveNote = (id) => {
@@ -121,27 +64,16 @@ export const NotesProvider = ({ children }) => {
     }
   };
 
+  const deleteNote = (id) => {
+    setTrashNote(trashNote.filter((note) => note.id !== id));
+  };
+
   const updateNote = (id, updatedNote) => {
     setSavedNotes((currentNotes) =>
       currentNotes.map((note) =>
         note.id === id ? { ...note, ...updatedNote } : note
       )
     );
-    // if (!user) {
-    //   console.log("User must be logged in to update notes");
-    //   return;
-    // }
-    // try {
-    //   await databaseService.updateNote(id,updateNote)
-    //   setSavedNotes((currentNotes) =>
-    //     currentNotes.map((note) =>
-    //       note.id === id ? { ...note, ...updatedNote } : note
-    //     )
-    //   );
-    // } catch (error) {
-    //   console.log("Error updating note:", error);
- 
-    // }
     
   };
 
@@ -153,6 +85,7 @@ export const NotesProvider = ({ children }) => {
     }
 
   };
+
   const restoreforArchive = (id) => {
     const restoreInArchive = archive.find((note) => note.id === id);
     if (restoreInArchive) {
@@ -170,9 +103,6 @@ export const NotesProvider = ({ children }) => {
   };
 
  
-  
-  // Other functions remain the same, with the same user checks if necessary
-
   return (
     <NotesContext.Provider
       value={{

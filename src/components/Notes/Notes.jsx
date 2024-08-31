@@ -1,22 +1,19 @@
 import React, { useState ,useRef } from "react";
 import MainBody from "../MainBody/MainBody";
 import { useNotes  } from "../../context/NotesContext";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 
 function Notes() {
-  const {savedNotes,addNotes,archiveNote,updateNote,trashaddNote,pinNotebtn,setSavedNotes      } = useNotes();
+  const {savedNotes,addNotes,archiveNote,updateNote,trashaddNote,pinNotebtn } = useNotes();
   const imageRef = useRef(null);
-
   const [image, setImage] = useState(
     JSON.parse(localStorage.getItem("image")) || []
   );
-
   const [editingNote, setEditingNote] = useState(false);
   
   const [openMenuId, setOpenMenuId] = useState(false);
-  const [imageId, setImageId] = useState(false);
 
   const handleEditChange = (e) => {
     let fieldName = e.target.name;
@@ -36,11 +33,9 @@ function Notes() {
     setEditingNote(false);
   };
 
-  const handleChangeImage = (e , id)=>{
-    
+  const handleChangeImage = (e )=>{
     const file = URL.createObjectURL(e.target.files[0])
-    const imageupdate = savedNotes.map(note => note.id === id ?{...note , image :file } : note )
-    setImage(imageupdate);
+    setImage((current )=> [... current , uuidv4() , file])
 
   }
   const imageAdd =(id)=>{
@@ -64,7 +59,7 @@ function Notes() {
             className="md:w-1/4 p-3 border rounded-md  shadow-lg m-2 w-full"
             onDoubleClick={() => setEditingNote(newnote)}
           >
-           {  <img src={image} alt={image.name}  key = {newnote.id}/>  }
+           { image && <img src={image}   key = {newnote.id}/>  }
 
             <div className="flex justify-between items-center">
               <p>{newnote.title}</p>

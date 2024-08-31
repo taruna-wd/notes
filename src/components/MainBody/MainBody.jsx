@@ -1,13 +1,8 @@
-import React, { useRef, useState } from "react";
-import Notes from "../Notes/Notes";
+import React, {  useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Modal } from "@mui/material";
-import { useNotes } from "../../context/NotesContext";
 
 const MainBody = ({ addNotes }) => {
-  const { setImage, image, imageAdd, imageRef } = useNotes();
   const [note, setNote] = useState({
-    
     id: uuidv4(),
     title: "",
     content: "",
@@ -33,15 +28,10 @@ const MainBody = ({ addNotes }) => {
     SetShowInput(false);
   };
 
-  //  const addImage = (e) =>{
-  //   console.log(e.target.files)
-  //   setImage(URL.createObjectURL(e.target.files[0]));
-
-  //  }
 
   return (
     <>
-      <div className=" my-3 font-sans ">
+      <section className=" my-3 font-sans ">
         <div className="w-full p-2  rounded-lg bg-zinc-700 mx-3 border border-gray-100  shadow-gray-500/40 ">
           <form
             className="flex justify-center items-end px-1"
@@ -90,17 +80,12 @@ const MainBody = ({ addNotes }) => {
             <div className="flex">
               <button type="submit">
                 <i className="fa-solid fa-notes-medical px-3"></i>
-
-                {/* <div onClick={imageAdd} > 
-            <img src={image} alt="" />
-          <i class="fa-solid fa-image px-3 " ><input type="file" ref={imageRef}  onChange={addImage} style={{display:"none"}}/></i>   
-                 </div> */}
               </button>
               <button type="button"></button>
             </div>
           </form>
         </div>
-      </div>
+      </section>
     </>
   );
 };
