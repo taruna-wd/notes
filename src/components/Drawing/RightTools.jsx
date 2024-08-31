@@ -1,4 +1,3 @@
-import { Link } from "@mui/material";
 import React, { useState } from "react";
 import { useDrawing } from "../../context/DrawingContext";
 
@@ -17,6 +16,7 @@ function Tools() {
     }
     setDisabled(false)
   };
+
   return (
     <div className="">
       <div className="flex gap-2 justify-between items-center w-2/3 my-1 ">

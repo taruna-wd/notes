@@ -7,9 +7,6 @@ const Brush = () => {
   const colorOptions = ["#070707", "#dc390c", "#f4f70f", "#4ef70f", "#0beeb9", "#840bee"];  // Different color options
   const sizeOptions = [5, 10, 15, 20]; // Different brush sizes
 
-  
-
-
 
   return (
     <div className="relative" >

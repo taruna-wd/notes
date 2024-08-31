@@ -3,7 +3,7 @@ import React from "react";
 import { useDrawing } from "../../context/DrawingContext";
 
 function Eraser() {
-  const { canvasRef ,  Eraser } = useDrawing();
+  const { Eraser } = useDrawing();
 
 
 
