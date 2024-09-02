@@ -104,15 +104,16 @@ export const NotesProvider = ({ children }) => {
     );
   };
 
-  const makeCopy = (id )=>{
-    const copy = savedNotes.find((note)=> note.id === id);
-    // if(copy){
-    //   setSavedNotes((currentcopy) => [...currentcopy , copy ])
-
-    // }
-      // setSavedNotes(savedNotes.filter((note) => note.id !== id));
-
-  }
+ const makeCopy = (id) => {
+    const noteToCopy = savedNotes.find((note) => note.id === id);
+    if (noteToCopy) {
+      const copiedNote = { ...noteToCopy, id: uuidv4() };
+      setSavedNotes((currentnote) => [
+        ...(Array.isArray(currentnote) ? currentnote : []),
+        copiedNote,
+      ]);
+    }
+  };
 
   const reminderNoteAdd = ()=>{
     
