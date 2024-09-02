@@ -20,11 +20,16 @@ export const NotesProvider = ({ children }) => {
   const [trashNote, setTrashNote] = useState(
     JSON.parse(localStorage.getItem("trashNote")) || []
   );
+  const [copy , setCopy] = useState([])
   const [otherNote, setOtherNote] = useState(
     JSON.parse(localStorage.getItem("othernote")) || []
   );
   const [storeDrawing, setStoreDrawing] = useState(
     JSON.parse(localStorage.getItem("othernote")) || []
+  );
+
+  const [reminder, setReminder] = useState(
+    JSON.parse(localStorage.getItem("reminder")) || []
   );
 
   const [disabled, setDisabled] = useState(false);
@@ -42,7 +47,6 @@ export const NotesProvider = ({ children }) => {
       { ...newnote, id: uuidv4(), pinned: false },
     ]);
   };
-  
 
   const trashaddNote = (id) => {
     const addTrash = savedNotes.find((note) => note.id === id);
@@ -100,13 +104,28 @@ export const NotesProvider = ({ children }) => {
     );
   };
 
+  const makeCopy = (id )=>{
+    const copy = savedNotes.find((note)=> note.id === id);
+    // if(copy){
+    //   setSavedNotes((currentcopy) => [...currentcopy , copy ])
+
+    // }
+      // setSavedNotes(savedNotes.filter((note) => note.id !== id));
+
+  }
+
+  const reminderNoteAdd = ()=>{
+    
+  }
  
   return (
     <NotesContext.Provider
       value={{
         savedNotes,
         archive,
+        copy,
         trashNote,
+        makeCopy,
         otherNote,
         menu,
         setDisabled,

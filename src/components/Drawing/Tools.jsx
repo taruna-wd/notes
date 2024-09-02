@@ -5,8 +5,7 @@ import RightTools from "./RightTools";
 
 
 function Tools() {
-  const { canvasRef, startDrawing, endDrawing, draw} = useDrawing();
-
+  const { canvasRef, startDrawing, endDrawing, draw ,} = useDrawing();
 
   return (
     <div className=" top-0 bg-white text-gray-950  flex flex-col w-full">

@@ -6,6 +6,8 @@ const MainBody = ({ addNotes }) => {
     id: uuidv4(),
     title: "",
     content: "",
+    image : null,
+    drawing : ""
   });
 
   const [showInput, SetShowInput] = useState(false);

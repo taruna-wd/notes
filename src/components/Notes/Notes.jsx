@@ -3,10 +3,13 @@ import MainBody from "../MainBody/MainBody";
 import { useNotes  } from "../../context/NotesContext";
 import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import { useDrawing } from "../../context/DrawingContext";
+
 
 
 function Notes() {
-  const {savedNotes,addNotes,archiveNote,updateNote,trashaddNote,pinNotebtn } = useNotes();
+  const {savedNotes,addNotes,archiveNote,updateNote,trashaddNote,pinNotebtn   , copy , makeCopy} = useNotes();
+
   const imageRef = useRef(null);
   const [image, setImage] = useState(
     JSON.parse(localStorage.getItem("image")) || []
@@ -53,14 +56,14 @@ function Notes() {
     <div className="w-3/5">
       <MainBody addNotes={addNotes} />
       <div className="flex justify-around flex-wrap">
+        
         {savedNotes.map((newnote) => (
           <div
             key={newnote.id}
             className="md:w-1/4 p-3 border rounded-md  shadow-lg m-2 w-full"
             onDoubleClick={() => setEditingNote(newnote)}
           >
-           { image && <img src={image}   key = {newnote.id}/>  }
-
+               {/* { image && <img src={image}   key = {newnote.id}/>  } */}
             <div className="flex justify-between items-center">
               <p>{newnote.title}</p>
               <span>
@@ -69,7 +72,7 @@ function Notes() {
                     newnote.pinned ? "text-blue-500" : ""
                   }`}
                   onClick={() => pinNotebtn(newnote.id)}
-                ></i>{" "}
+                ></i>
               </span>
             </div>
             <p className="my-3 ">{newnote.content}</p>
@@ -102,11 +105,12 @@ function Notes() {
                   >
                     Add Drawing
                   </Link>
-                  <p onClick={() => trashaddNote(newnote.id)}> Make a copy </p>
+                  <p onClick={() => makeCopy(newnote.id)}> Make a copy </p>
                 </div>
               )}
           </div>
         ))}
+        
       </div>
       {editingNote && (
         <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2shadow-lg">

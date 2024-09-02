@@ -36,7 +36,6 @@ export const DrawingProvider = ({ children }) => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     ctx.strokeStyle = isErasing ? "#FFFFFF" : color; // Set color based on whether erasing or drawing
-
     ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
     ctx.stroke();
   };
@@ -55,7 +54,6 @@ export const DrawingProvider = ({ children }) => {
     const canvas = canvasRef.current;
     const dataUrl = canvas.toDataURL();
     console.log(history)
-
     const newHistory = [...history.slice(0, historyStep), dataUrl];
     setHistory(newHistory);
     console.log(newHistory)
@@ -104,7 +102,7 @@ export const DrawingProvider = ({ children }) => {
 
   return (
     <DrawingContext.Provider value={{
-      canvasRef, startDrawing, endDrawing, draw,
+      canvasRef, startDrawing, endDrawing, draw,history,
       setColor, setLineWidth, downloadImage, showOptions, toggleOptions,
       undo, redo, Eraser
     }}>
