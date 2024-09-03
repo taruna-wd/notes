@@ -96,13 +96,21 @@ export const NotesProvider = ({ children }) => {
     }
   };
 
-  const pinNotebtn = (id) => {
-    setSavedNotes((currentnote) =>
-      currentnote.map((note) =>
-        note.id === id ? { ...note, pinned: !note.pinned } : note
-      )
-    );
+   const pinNotebtn = (id) => {
+      const pinNote = savedNotes.find((note)=> note.id === id )
+      if(pinNote){
+        setOtherNote((current)=> [...current , {...pinNote , pinned : true}])
+      }
+      setSavedNotes(savedNotes.filter((note) => note.id !== id))
   };
+
+  const  UnpinNote = (id)=>{
+    const unpin = otherNote.find((note)=> note.id === id)
+    if(unpin){
+        setSavedNotes((prevPin) => [...prevPin ,{...unpin , pinned : false}])
+    }
+      setOtherNote(otherNote.filter((note)=> note.id !== id))
+   }
 
  const makeCopy = (id) => {
     const noteToCopy = savedNotes.find((note) => note.id === id);
@@ -128,6 +136,7 @@ export const NotesProvider = ({ children }) => {
         trashNote,
         makeCopy,
         otherNote,
+        UnpinNote,
         menu,
         setDisabled,
         pinNotebtn,
