@@ -38,14 +38,7 @@ function Notes() {
     setEditingNote(false);
   };
 
-  const handleChangeImage = (e )=>{
-    const file = URL.createObjectURL(e.target.files[0])
-    setImage((current )=> [... current , uuidv4() , file])
 
-  }
-  const imageAdd =(id)=>{
-      imageRef.current.click()
-  }
 
   const toggleMenu = (id) => {
     if (openMenuId === id) {
