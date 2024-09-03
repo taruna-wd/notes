@@ -4,11 +4,13 @@ import { useNotes  } from "../../context/NotesContext";
 import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { useDrawing } from "../../context/DrawingContext";
+import Pinned from "./Pinned";
+
 
 
 
 function Notes() {
-  const {savedNotes,addNotes,archiveNote,updateNote,trashaddNote,pinNotebtn   , copy , makeCopy} = useNotes();
+  const {savedNotes,addNotes,archiveNote,updateNote,trashaddNote,pinNotebtn , UnpinNote, copy , makeCopy} = useNotes();
 
   const imageRef = useRef(null);
   const [image, setImage] = useState(
@@ -55,7 +57,10 @@ function Notes() {
   return (
     <div className="w-3/5">
       <MainBody addNotes={addNotes} />
-      <div className="flex justify-around flex-wrap">
+      <Pinned/>
+      <h2 className="text-xl my-2 px-2 ">Notes List</h2>
+
+      <div className="flex flex-wrap gap-3 justify-between md:justify-start">
         
         {savedNotes.map((newnote) => (
           <div
@@ -67,12 +72,15 @@ function Notes() {
             <div className="flex justify-between items-center">
               <p>{newnote.title}</p>
               <span>
-                <i
-                  className={`fa-solid fa-thumbtack ${
-                    newnote.pinned ? "text-blue-500" : ""
-                  }`}
-                  onClick={() => pinNotebtn(newnote.id)}
-                ></i>
+               {newnote.pinned ? (
+                    <i className="fa-solid fa-thumbtack-slash"></i>
+                  ) : (
+                    <i
+                      className="fa-solid fa-thumbtack"
+                      onClick={() => pinNotebtn(newnote.id)}
+                      title="Pin Note"
+                    ></i>
+                  )}
               </span>
             </div>
             <p className="my-3 ">{newnote.content}</p>
@@ -87,13 +95,7 @@ function Notes() {
                     className="fa-solid fa-file-arrow-down rounded-full p-2"
                     onClick={(id) => archiveNote(newnote.id)}
                   ></i>
-                   <i
-                    title="image"
-                    className="fa-solid fa-image rounded-full p-2"
-                    onClick={()=> imageAdd(newnote.id)}
-
-                  >  <input type="file" ref={imageRef}  onChange={handleChangeImage} style={{display : "none"}}/>
-   </i>
+                   
               </div>
 
               {openMenuId === newnote.id && (
