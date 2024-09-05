@@ -1,31 +1,38 @@
 import React from 'react';
 import Eraser from './Eraser';
 import Calligraphy from './Calligraphy';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useDrawing } from "../../context/DrawingContext";
 import { useNotes } from "../../context/NotesContext";
+import { v4 as uuidv4 } from "uuid";
+import { useState } from 'react';
 
 function LeftTools() {
   const navigate = useNavigate();
-  const { history, setHistory, canvasRef } = useDrawing();
-  const { addNotes } = useNotes();
+  const {  setHistory, canvasRef  ,restoreCanvas} = useDrawing();
+  const { savedNotes, setSavedNotes, updateNote , openMenuId ,setOpenMenuId } = useNotes();
+  const location = useLocation();
+  const [savedImages, setSavedImages] = useState([]);
 
-  const backBtn = () => {
-    // Convert the drawing on the canvas to an image or some data representation
+    // Extract the noteId from the URL
+  const noteId = location.pathname.split("/")[2];
+
+
+  const handleSave = (id ) => {
     const canvas = canvasRef.current;
-    const imageData = canvas.toDataURL("image/png"); // This saves the drawing as a base64 PNG
+    const imageData = canvas.toDataURL('image/png');
+       // Update the specific note with the drawing image
+    updateNote(noteId, { data: imageData });
 
-    
-    setHistory(imageData)
-    console.log(history)
-    // Navigate back to the notes page
     navigate("/notes");
+
   };
+
 
   return (
     <div className="flex gap-2 justify-center items-center 1/4">
       <div className='p-1 px-2 border cursor-pointer'>
-        <i className="fa-solid fa-arrow-left" onClick={backBtn}></i>
+        <i className="fa-solid fa-arrow-left" onClick={handleSave}></i>
       </div>
       <Eraser />
       <Calligraphy />
