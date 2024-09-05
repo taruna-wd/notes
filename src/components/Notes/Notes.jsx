@@ -20,6 +20,11 @@ function Notes() {
     UnpinNote,
   } = useNotes();
 
+  const imageRef = useRef(null);
+  const [image, setImage] = useState(
+    JSON.parse(localStorage.getItem("image")) || []
+  );
+  const [imageId , setImageId] = useState(null)
   const [editingNote, setEditingNote] = useState(false);
 
   const handleEditChange = (e) => {
@@ -40,7 +45,25 @@ function Notes() {
     setEditingNote(false);
   };
 
-  
+  const handleChangeImage = (e) => {
+    const file = URL.createObjectURL(e.target.files[0]);
+    if (file && imageId) {
+      const updatedNotes = savedNotes.map((note) => {
+        if (note.id === imageId) {
+          return { ...note, image: file };  // Add image to the respective note
+        }
+        return note;
+      });
+      localStorage.setItem("notes", JSON.stringify(updatedNotes)); // Save updated notes
+      setImageId(null); // Reset imageId after updating
+    }
+  };
+  const imageAdd = (id) => {
+    setImageId(id);  // Store the note's ID
+    imageRef.current.click();  // Trigger the file input for image selection
+  };
+
+
   const toggleMenu = (id) => {
     if (openMenuId === id) {
       setOpenMenuId(false); // Close the menu if it's already open
@@ -90,7 +113,6 @@ function Notes() {
                   className="fa-solid fa-file-arrow-down rounded-full p-2"
                   onClick={() => archiveNote(newnote.id)}
                 ></i>
-              
               </div>
 
               {openMenuId === newnote.id && (
