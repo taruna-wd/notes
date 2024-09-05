@@ -53,12 +53,11 @@ export const DrawingProvider = ({ children }) => {
   const saveHistory = () => {
     const canvas = canvasRef.current;
     const dataUrl = canvas.toDataURL();
-    console.log(history)
+    console.log( "first",history)
     const newHistory = [...history.slice(0, historyStep), dataUrl];
     setHistory(newHistory);
-    console.log(newHistory)
+    console.log( " new history h " , newHistory)
     localStorage.setItem("history", JSON.stringify(history));
-
     setHistoryStep(newHistory.length);
   };
 
@@ -102,9 +101,9 @@ export const DrawingProvider = ({ children }) => {
 
   return (
     <DrawingContext.Provider value={{
-      canvasRef, startDrawing, endDrawing, draw,history,
+      canvasRef, startDrawing, endDrawing, draw,history,setHistory,
       setColor, setLineWidth, downloadImage, showOptions, toggleOptions,
-      undo, redo, Eraser
+      undo, redo, Eraser ,restoreCanvas
     }}>
       {children}
     </DrawingContext.Provider>
