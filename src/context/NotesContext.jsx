@@ -20,7 +20,6 @@ export const NotesProvider = ({ children }) => {
   const [trashNote, setTrashNote] = useState(
     JSON.parse(localStorage.getItem("trashNote")) || []
   );
-  const [copy , setCopy] = useState([])
   const [otherNote, setOtherNote] = useState(
     JSON.parse(localStorage.getItem("othernote")) || []
   );
@@ -28,14 +27,10 @@ export const NotesProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("othernote")) || []
   );
 
-  const [reminder, setReminder] = useState(
-    JSON.parse(localStorage.getItem("reminder")) || []
-  );
-
   const [disabled, setDisabled] = useState(false);
-  const [menu, setMenu] = useState(false);
-    const [openMenuId, setOpenMenuId] = useState(false);
+  const [openMenuId, setOpenMenuId] = useState(false);
 
+  const [menu, setMenu] = useState(false);
   useEffect(() => {
     localStorage.setItem("savednotes", JSON.stringify(savedNotes));
     localStorage.setItem("archive", JSON.stringify(archive));
@@ -44,7 +39,7 @@ export const NotesProvider = ({ children }) => {
   }, [savedNotes, archive, trashNote, otherNote]);
 
   
-   const addNotes =  (newnote) => {
+  const addNotes =  (newnote) => {
    setSavedNotes((currentnote) => [
     ...(Array.isArray(currentnote) ? currentnote : []),
     { ...newnote, id: uuidv4(), pinned: false , image :"" , data :null },
@@ -99,23 +94,25 @@ export const NotesProvider = ({ children }) => {
     }
   };
 
-   const pinNotebtn = (id) => {
+  const pinNotebtn = (id) => {
       const pinNote = savedNotes.find((note)=> note.id === id )
+
       if(pinNote){
         setOtherNote((current)=> [...current , {...pinNote , pinned : true}])
       }
       setSavedNotes(savedNotes.filter((note) => note.id !== id))
+
   };
 
   const  UnpinNote = (id)=>{
-    const unpin = otherNote.find((note)=> note.id === id)
-    if(unpin){
-        setSavedNotes((prevPin) => [...prevPin ,{...unpin , pinned : false}])
-    }
-      setOtherNote(otherNote.filter((note)=> note.id !== id))
-   }
+  const unpin = otherNote.find((note)=> note.id === id)
+  if(unpin){
+    setSavedNotes((prevPin) => [...prevPin ,{...unpin , pinned : false}])
+  }
+  setOtherNote(otherNote.filter((note)=> note.id !== id))
+ }
 
- const makeCopy = (id) => {
+  const makeCopy = (id) => {
     const noteToCopy = savedNotes.find((note) => note.id === id);
     if (noteToCopy) {
       const copiedNote = { ...noteToCopy, id: uuidv4() };
@@ -124,28 +121,26 @@ export const NotesProvider = ({ children }) => {
         copiedNote,
       ]);
     }
+    setOpenMenuId(false)
   };
 
-  const reminderNoteAdd = ()=>{
-    
-  }
  
   return (
     <NotesContext.Provider
       value={{
         savedNotes,
         archive,
-        copy,
         trashNote,
-        makeCopy,
-        openMenuId,
-        setOpenMenuId,
         otherNote,
-        UnpinNote,
         menu,
+        openMenuId,
+        UnpinNote,
+        setOpenMenuId,
         setDisabled,
+        makeCopy,
         pinNotebtn,
         addNotes,
+        setSavedNotes,
         deleteNote,
         archiveNote,
         updateNote,
