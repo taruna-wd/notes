@@ -34,6 +34,8 @@ export const NotesProvider = ({ children }) => {
 
   const [disabled, setDisabled] = useState(false);
   const [menu, setMenu] = useState(false);
+    const [openMenuId, setOpenMenuId] = useState(false);
+
   useEffect(() => {
     localStorage.setItem("savednotes", JSON.stringify(savedNotes));
     localStorage.setItem("archive", JSON.stringify(archive));
@@ -136,6 +138,8 @@ export const NotesProvider = ({ children }) => {
         copy,
         trashNote,
         makeCopy,
+        openMenuId,
+        setOpenMenuId,
         otherNote,
         UnpinNote,
         menu,
