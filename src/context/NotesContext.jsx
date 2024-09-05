@@ -42,10 +42,11 @@ export const NotesProvider = ({ children }) => {
   }, [savedNotes, archive, trashNote, otherNote]);
 
   
-  const addNotes =  (newnote) => {
-    setSavedNotes((currentnote) => [ ...currentnote,
-      { ...newnote, id: uuidv4(), pinned: false },
-    ]);
+   const addNotes =  (newnote) => {
+   setSavedNotes((currentnote) => [
+    ...(Array.isArray(currentnote) ? currentnote : []),
+    { ...newnote, id: uuidv4(), pinned: false , image :"" , data :null },
+  ]);
   };
 
   const trashaddNote = (id) => {
