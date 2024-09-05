@@ -1,6 +1,8 @@
 import React from 'react'
 import { useNotes } from '../../context/NotesContext';
 import { useRef , useState } from 'react';
+import {  Link } from "react-router-dom";
+
 function Pinned() {
     const {
         savedNotes = [],
@@ -40,7 +42,14 @@ function Pinned() {
     setEditingNote(false);
   };
 
-  
+  const handleChangeImage = (e) => {
+    const file = URL.createObjectURL(e.target.files[0]);
+    const imageFile = { file, id: uuidv4() };
+    setImage((current) => [...current,  imageFile]);
+  };
+  const imageAdd = (id) => {
+    imageRef.current.click();
+  };
 
   const toggleMenu = (id) => {
     if (openMenuId === id) {
@@ -91,9 +100,6 @@ function Pinned() {
                   className="fa-solid fa-file-arrow-down rounded-full p-2"
                   onClick={(id) => archiveNote(pinNote.id)}
                 ></i>
-                
-
-              
               </div>
 
               {openMenuId === pinNote.id && (
@@ -108,7 +114,44 @@ function Pinned() {
           ))}
         </div>
       </div>
-        
+      {editingNote && (
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2shadow-lg">
+          <div class="relative w-full p-3 border rounded-md shadow-white m-2 bg-black  ">
+            <form className="flex flex-col" onSubmit={handleUpdateNote}>
+              <div className="flex justify-between my-2 ">
+                <i
+                  className="fa-solid fa-xmark  hover:bg-slate-900 p-1 rounded-sm"
+                  onClick={() => setEditingNote(null)}
+                ></i>
+                <i
+                  className="fa-solid fa-floppy-disk  hover:bg-slate-900 p-1 rounded-sm"
+                  onClick={handleUpdateNote}
+                ></i>
+              </div>
+              <div className="">
+                <input
+                  type="text"
+                  name="title"
+                  placeholder="title"
+                  value={editingNote.title}
+                  onChange={handleEditChange}
+                  className="w-full  bg-transparent   outline-none mb-3 hover:border-b pb-1"
+                  required
+                />
+                <input
+                  type="text"
+                  name="content"
+                  value={editingNote.content}
+                  onChange={handleEditChange}
+                  className="w-full  bg-transparent   outline-none mb-3 hover:border-b pb-1"
+                  required
+                />
+                <div></div>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </section>
   )
 }
